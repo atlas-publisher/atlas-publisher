@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — Atlas Publisher</title>
+<style>body{font-family:system-ui,-apple-system,sans-serif;max-width:760px;margin:40px auto;padding:0 20px;line-height:1.6;color:#222}h1{font-size:1.6em}h2{font-size:1.15em;margin-top:1.6em}</style>
+</head>
+<body>
+<h1>Privacy Policy — Atlas Publisher</h1>
+<p><strong>Effective date:</strong> October 18, 2026<br>
+<strong>Operator:</strong> Atlas Publisher (a publishing tool operated for the @atlasshortstv and The Final Shift creator channels)<br>
+<strong>Contact:</strong> ayazdurkhani7@gmail.com</p>
+
+<h2>1. What this tool is</h2>
+<p>Atlas Publisher is a web-based publishing tool that uploads original short videos created by our team to TikTok accounts we operate, using TikTok's official Content Posting API. It is not a consumer app and does not serve the general public; it is used only by our own channel operators.</p>
+
+<h2>2. Data we collect</h2>
+<p>When a creator connects their TikTok account, TikTok's OAuth flow gives us:</p>
+<ul>
+<li><strong>TikTok open_id</strong> — TikTok's identifier for the connected account (used to address API calls to the right account).</li>
+<li><strong>Access token and refresh token</strong> — credentials that let our server call TikTok's API on the connected account's behalf for the scopes the creator approved (<code>user.info.basic</code>, <code>video.upload</code>, <code>video.publish</code>).</li>
+<li><strong>Basic profile info</strong> (<code>user.info.basic</code> scope only): display name and avatar, shown in our tool so the operator can confirm the correct account is connected before publishing.</li>
+</ul>
+<p>When a video is published, we log: the TikTok <code>publish_id</code>, the post status returned by TikTok, the caption used, and timestamps. This log exists only for troubleshooting failed uploads.</p>
+<p>We do <strong>not</strong> collect, read, or store: follower lists, private messages, comments, analytics, device data, location data, or any data about TikTok users other than the connected creator accounts described above.</p>
+
+<h2>3. How TikTok data is used</h2>
+<ul>
+<li>Tokens are used solely to upload videos and check publish status on the connected creator's own TikTok account, at the creator's direction, on the scopes the creator approved.</li>
+<li>Profile info is displayed in our tool's interface only, to confirm account identity.</li>
+<li>Publish logs are used only to diagnose failed or stuck uploads.</li>
+</ul>
+
+<h2>4. How TikTok data is stored and protected</h2>
+<ul>
+<li>Tokens are stored server-side in an encrypted credential store. They are never embedded in client-side code, never logged, and never included in URLs.</li>
+<li>Access tokens expire every 24 hours per TikTok's design; our server refreshes them using the refresh token over an encrypted connection.</li>
+<li>Server access is restricted to the channel operators. No third party has access to the tokens.</li>
+</ul>
+
+<h2>5. Data sharing</h2>
+<p>We do not sell, rent, or share any TikTok user data with any third party, advertiser, or data broker. The only external service that receives data is TikTok itself, via its official API, as required to perform the upload the creator requested.</p>
+
+<h2>6. Data retention and deletion</h2>
+<ul>
+<li>Tokens are kept only while the creator's account stays connected. Disconnecting the account in our tool deletes the stored tokens immediately.</li>
+<li>Publish logs are kept for 90 days for troubleshooting, then deleted.</li>
+<li>A creator may request deletion of all data we hold about their account at any time by contacting us at the email above; we will confirm deletion within 7 days.</li>
+</ul>
+
+<h2>7. Children's data</h2>
+<p>This tool is operated by and for adult channel operators. It is not directed at children, and we do not knowingly collect data from anyone under 18.</p>
+
+<h2>8. Changes to this policy</h2>
+<p>If this policy changes, the updated version will be posted at this same URL with a new effective date. Material changes will be communicated to connected creators before they take effect.</p>
+
+<h2>9. Contact</h2>
+<p>Questions about this policy or requests to access, correct, or delete your data: ayazdurkhani7@gmail.com</p>
+</body>
+</html>
