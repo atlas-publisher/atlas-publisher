@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atlas Publisher — TikTok Connected</title>
+<style>
+  body{font-family:system-ui,-apple-system,sans-serif;max-width:720px;margin:40px auto;padding:0 20px;line-height:1.6;color:#222}
+  .card{border:1px solid #ddd;border-radius:12px;padding:20px;margin:16px 0}
+  .ok{background:#f0faf0;border-color:#bfe3bf}
+  .err{background:#fdf0f0;border-color:#f0bcbc}
+  .demo{background:#fff8e6;border-color:#f0d98c}
+  code{background:#f4f4f4;padding:2px 6px;border-radius:4px}
+  .nick{font-size:1.4em;font-weight:700}
+  .small{color:#666;font-size:.9em}
+</style>
+</head>
+<body>
+<h1>Atlas Publisher</h1>
+
+<div id="state-loading" class="card">
+  <p>Checking the TikTok authorization response…</p>
+</div>
+
+<div id="state-success" class="card ok" style="display:none">
+  <h2>✅ TikTok account connected</h2>
+  <p>TikTok returned an authorization code. The <strong>server</strong> now exchanges
+     it for an access token (24&nbsp;h) and a refresh token (365&nbsp;d) — the secret
+     never passes through this page.</p>
+  <div class="card demo">
+    <p class="small"><strong>DEMO PLACEHOLDER</strong> — in the live integration the
+       backend fills this in after the token exchange:</p>
+    <p class="nick">@creator_nickname <span class="small">(from TikTok user.info.basic)</span></p>
+    <p class="small">open_id: <code>…</code> · scopes: <code>user.info.basic, video.upload, video.publish</code></p>
+  </div>
+  <p>What happens next:</p>
+  <ol>
+    <li>Server stores the tokens securely (server-side only).</li>
+    <li>A refresh job keeps the access token alive — slots never hit an expired token.</li>
+    <li>Each connected account is listed on the <a href="../../publisher.html">publisher page</a>
+        with its nickname, commercial-content and music-consent controls.</li>
+  </ol>
+</div>
+
+<div id="state-error" class="card err" style="display:none">
+  <h2>⚠️ Authorization did not complete</h2>
+  <p id="error-detail"></p>
+  <p class="small">If you declined the permissions, open the authorization link again and approve all requested scopes.</p>
+</div>
+
+<p class="small"><a href="../../index.html">Atlas Publisher home</a> ·
+<a href="../../privacy.html">Privacy Policy</a> · <a href="../../terms.html">Terms of Service</a></p>
+
+<script>
+// Honest static demo: this page only READS the redirect parameters TikTok appends.
+// The real token exchange is server-side (see tiktok_api_client.py exchange_code_for_token).
+(function () {
+  var q = new URLSearchParams(window.location.search);
+  var code = q.get("code"), state = q.get("state"), err = q.get("error");
+  document.getElementById("state-loading").style.display = "none";
+  if (err) {
+    document.getElementById("state-error").style.display = "block";
+    document.getElementById("error-detail").textContent =
+      "TikTok returned error=" + err + (q.get("error_description") ? ": " + q.get("error_description") : "");
+  } else if (code) {
+    document.getElementById("state-success").style.display = "block";
+    // NOTE: the code is intentionally NOT displayed or sent anywhere from this static page.
+    // A production backend reads ?code= here, validates `state` against the value it
+    // generated, and calls POST https://open.tiktokapis.com/v2/oauth/token/.
+  } else {
+    document.getElementById("state-error").style.display = "block";
+    document.getElementById("error-detail").textContent =
+      "No authorization code was returned. Start again from the publisher page.";
+  }
+})();
+</script>
+</body>
+</html>

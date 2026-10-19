@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atlas Publisher — TikTok Publisher</title>
+<style>
+  body{font-family:system-ui,-apple-system,sans-serif;max-width:720px;margin:40px auto;padding:0 20px;line-height:1.6;color:#222}
+  .banner{background:#fff8e6;border:1px solid #f0d98c;border-radius:12px;padding:14px 20px;margin-bottom:20px}
+  .card{border:1px solid #ddd;border-radius:12px;padding:20px;margin:16px 0}
+  .nick{font-size:1.4em;font-weight:700}
+  .small{color:#666;font-size:.9em}
+  label{display:block;margin:10px 0}
+  input[type=text],textarea{width:100%;box-sizing:border-box;padding:8px;border:1px solid #ccc;border-radius:6px;font:inherit}
+  button{padding:10px 18px;border:none;border-radius:8px;background:#111;color:#fff;font:inherit;cursor:pointer;margin-right:8px}
+  button.ghost{background:#eee;color:#222}
+  button:disabled{background:#ccc;cursor:not-allowed}
+  code{background:#f4f4f4;padding:2px 6px;border-radius:4px}
+</style>
+</head>
+<body>
+<h1>Atlas Publisher</h1>
+
+<div class="banner">
+  <strong>STATIC DEMO PAGE</strong> — this page demonstrates the audit-required UX
+  (connected-creator nickname, commercial-content control, music consent, disconnect).
+  Nothing on this page calls TikTok's API; the real publishing runs server-side
+  (see <code>tiktok_api_client.py</code>). Placeholders are labeled as such.
+</div>
+
+<div class="card">
+  <h2>Connected TikTok account</h2>
+  <p class="nick">@atlasshortstv <span class="small">(DEMO PLACEHOLDER — live value comes from TikTok <code>user.info.basic</code> after OAuth)</span></p>
+  <p class="small">open_id: <code>…</code> · scopes: <code>user.info.basic, video.upload, video.publish</code> ·
+     token: valid ~24 h, auto-refreshed server-side</p>
+  <p>
+    <button class="ghost" disabled title="Demo only — disconnect runs server-side in the live integration">Disconnect</button>
+  </p>
+  <p class="small">In the live integration, “Connect account” opens a server-generated TikTok
+     authorization URL (<code>https://www.tiktok.com/v2/auth/authorize/</code>);
+     TikTok redirects back to
+     <code>oauth/tiktok/callback.html</code> with <code>?code=</code>, which the
+     server exchanges for tokens.</p>
+  <p class="small">Each TikTok account authorizes individually. A second account (horror channel)
+     connects through its own redirect URI:
+     <code>https://atlas-publisher.github.io/atlas-publisher/oauth/tiktok/callback-finalshift</code>
+     (register it in the portal under Login Kit).</p>
+</div>
+
+<div class="card">
+  <h2>New post</h2>
+  <label>Video file (MP4, H.264, 3 s – 10 min, max 4 GB)
+    <input type="file" accept="video/mp4" disabled title="Demo only">
+  </label>
+  <label>Caption (title + hashtags)
+    <textarea rows="3" placeholder="Bolivia Has the World's Largest Salt Flat 🇧🇴 #Shorts #GeographyFacts #DidYouKnow #Bolivia #AtlasShorts" disabled></textarea>
+  </label>
+  <label><input type="checkbox" checked disabled>
+    <strong>Direct Post</strong> — publish immediately as PUBLIC_TO_EVERYONE
+    <span class="small">(requires TikTok's Content Posting audit; before the audit passes, posts are forced private even on API success)</span>
+  </label>
+  <label><input type="checkbox" disabled>
+    This video is <strong>branded content</strong> (commercial-content disclosure → API <code>brand_content_toggle</code>)
+  </label>
+  <label><input type="checkbox" checked disabled>
+    I confirm the video's music/audio is <strong>original or licensed</strong> for TikTok use (music-use consent)
+  </label>
+  <label><input type="checkbox" checked disabled>
+    This video was made with <strong>AI assistance</strong> (→ API <code>is_aigc</code> label)
+  </label>
+  <p><button disabled title="Demo only — publishing runs via tiktok_api_client.py publish">Publish to TikTok</button></p>
+  <p class="small">Live flow (server-side): INIT <code>/v2/post/publish/video/init/</code> →
+     PUT MP4 chunks (10 MB, <code>Content-Range</code>) → poll
+     <code>/v2/post/publish/status/fetch/</code> until <code>PUBLISH_COMPLETE</code>.</p>
+</div>
+
+<p class="small"><a href="index.html">Atlas Publisher home</a> ·
+<a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Service</a> ·
+Contact: ayazdurkhani7@gmail.com</p>
+</body>
+</html>
